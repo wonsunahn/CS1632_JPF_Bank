@@ -25,7 +25,7 @@ public class BankTest {
 	 * </pre>
 	 */
 	@Test
-	public void testShoot() {
+	public void testTransfer() {
 		// TODO: Implement
 	}
 }
