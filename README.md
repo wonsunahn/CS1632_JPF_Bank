@@ -8,8 +8,7 @@
     + [Hints while Fixing](#hints-while-fixing)
   * [Submission](#submission)
   * [GradeScope Feedback](#gradescope-feedback)
-  * [Resources](#resources)
-- [Groupwork Plan](#groupwork-plan)
+  * [Groupwork Plan](#groupwork-plan)
 
 # Exercise 5 - Static Analysis Extra Credit
 
@@ -301,16 +300,7 @@ feedback and resubmit.  Repeat until you don't get deductions.
 
 GradeScope autograder is under construction.  I will announce it when it is complete.
 
-## Resources
-
-* JDK 8 installation packages:  
-https://drive.google.com/drive/folders/1E76H7y2nMsrdiBwJi0nwlzczAgTKKhv7
-
-* Java Path Finder manual:  
-https://github.com/javapathfinder/jpf-core/wiki/How-to-use-JPF
-http://javapathfinder.sourceforge.net/
-
-# Groupwork Plan
+## Groupwork Plan
 
 You will work together on the same repository.  You only need a handful of
 source line changes to fix these bugs.  The hard part is thinking of the right
