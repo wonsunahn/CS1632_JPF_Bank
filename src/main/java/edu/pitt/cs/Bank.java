@@ -78,9 +78,9 @@ public class Bank {
 			System.out.print("Enter command ('t' for transfer or 's' for summary or 'q' to quit): ");
 			String command = scanner.nextLine();
 			if (command.equals("t")) {
-				System.out.print("Enter your 'from' account number [0-" + accountNum + "]: ");
+				System.out.print("Enter your 'from' account number [0-" + (accountNum - 1) + "]: ");
 				final int from = scanner.nextInt();
-				System.out.print("Enter your 'to' account number [0-" + accountNum + "]: ");
+				System.out.print("Enter your 'to' account number [0-" + (accountNum - 1) + "]: ");
 				final int to = scanner.nextInt();
 				System.out.print("Enter amount: ");
 				final int amount = scanner.nextInt();
