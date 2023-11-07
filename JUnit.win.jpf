@@ -1,0 +1,28 @@
+classpath = target/classes;target/test-classes;junit/junit-4.12.jar;junit/hamcrest-core-1.3.jar;junit/mockito-core-1.10.19.jar;junit/objenesis-2.4.jar
+sourcepath = src/main/java;src/test/java
+
+# Target class main method to run.  In this case, we are invoking JUnit through the TestRunner.
+# It's like running any JUnit test except that now we are running each test case many times for each path explored by Java Path Finder.
+target = edu.pitt.cs.TestRunner
+
+# Main method arguments.  Enable if you want to obtain a trace of a JUnit faiure.
+target.args = trace
+
+# On property violation, print the error, the choice trace, and the Java stack snapshot
+report.console.property_violation=error,trace
+
+# If true, prints program output as JPF traverses all possible paths
+vm.tree_output = true
+
+# Do a BFS (Breadth First Search) of the state space.  The other option is DFSHeuristic (Depth First Search).
+search.class = .search.heuristic.BFSHeuristic
+
+# Add a listener plug-in for race detection.
+listener = gov.nasa.jpf.listener.PreciseRaceDetector
+
+# We don't check for races in standard libraries
+race.exclude=java.*,javax.*
+
+# Creates a CG upon Thread.start, i.e. breaks the starting transition. Note this is
+# required for data race detection (which depends on detecting access of shared objects)
+cg.threads.break_start=true
