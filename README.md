@@ -266,9 +266,12 @@ In order for your solution to count for the extra credit, you cannot use any
 other synchronization other than to lock or unlock the aforementioned "lock"
 variable.  That means:
 
-1. You cannot create any more lock objects.
+1. You cannot create any more lock objects.  The 4 locks for the 4 accounts are
+all the locks you need to do correct synchronization.
 
-2. You cannot do Thread.join() to wait for a thread to terminate.
+2. You cannot do Thread.join() to wait for a transaction thread to terminate.
+This has the effect of serializing all execution, making it a de facto
+single-threaded program.
 
 ### Hints while Fixing
 
@@ -298,7 +301,17 @@ feedback and resubmit.  Repeat until you don't get deductions.
 
 ## GradeScope Feedback
 
-GradeScope autograder is under construction.  I will announce it when it is complete.
+The GradeScope autograder tests your Bank implementation using the solution
+BankTest JUnit test (with the testTransfer method completed) on top of JPF.
+You will get the extra credit only if JPF is not able to find any errors.  In
+addition to the autograder, I will visually check that you adhered to
+[Restrictions while Fixing](#restrictions-while-fixing).  If you did not, you
+will not get the extra credit.
+
+If you implemented your BankTest properly, you should be able to easily
+reproduce GradeScope results on your own machine using your own BankTest class.
+If you are not able to reproduce it, something is wrong with your BankTest
+code.
 
 ## Groupwork Plan
 
