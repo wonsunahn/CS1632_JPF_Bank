@@ -90,11 +90,10 @@ exceedingly low.
 
 ## Writing a Property-based Test for the Application
 
-Currently, the only properties that are being checked by JPF while doing state
+The properties that are currently being checked by JPF while doing state
 space exploration is: 1) there are no uncaught exceptions and 2) there are no
 data races or deadlocks.  The latter was enabled by adding a data race listener
-to the [JUnit.win.jpf](JUnit.win.jpf) and [JUnit.macos.jpf](JUnit.macos.jpf)
-files:
+to the [jpf.properties](jpf-core/jpf.properties):
 
 ```
 listener = gov.nasa.jpf.listener.PreciseRaceDetector
@@ -116,30 +115,36 @@ If you are not using VSCode, you may need to compile your test classes:
 mvn test-compile
 ```
 
-To run JPF on BankTest, do (.bat for WIndows, .sh for Mac/Linux):
+To run JPF on BankTest, first cd into jpf-core:
 
 ```
-.\runJPF.bat JUnit.win.jpf
-```
-```
-bash runJPF.sh JUnit.macos.jpf
+cd jpf-core
 ```
 
-We are using the same TestRunner class that we used for Exercise 5 Part 2 for the target of JPF.
+And do (.bat for WIndows, .sh for Mac/Linux):
+
+```
+.\runTest.bat edu.pitt.cs.BankTest
+```
+```
+bash runTest.sh edu.pitt.cs.BankTest
+```
 
 If you implemented testTransfer() properly, you should see a data race property violation being reported:
 
+
 ```
-$ bash runJPF.sh JUnit.macos.jpf 
-JavaPathfinder core system v8.0 (rev 2f8f3c4dc847b8945fc13d2cb60896fc9c34265b) - (C) 2005-2014 United States Government. All rights reserved.
+......................................... testing testTransfer()
+  running jpf with args:
+JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
-edu.pitt.cs.TestRunner.main("trace")
+edu.pitt.cs.BankTest.runTestMethod()
 
-====================================================== search started: 11/7/23 2:27 PM
-TRACE GENERATION FOR FIRST FAILURE
-
+====================================================== search started: 3/28/24, 7:44 AM
+[WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
+[WARNING] orphan NativePeer method: jdk.internal.reflect.Reflection.getCallerClass(I)Ljava/lang/Class;
 
 ====================================================== error 1
 gov.nasa.jpf.listener.PreciseRaceDetector
@@ -153,8 +158,13 @@ race for field edu.pitt.cs.Transaction.transactionCount
 ====================================================== trace #1
 ------------------------------------------------------ transition #0 thread: 0
 gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"ROOT" ,1/1,isCascaded:false}
-      [6345 insn w/o sources]
-  edu/pitt/cs/TestRunner.java:14 : public class TestRunner {
+      [9202 insn w/o sources]
+  edu/pitt/cs/BankTest.java:18   : public class BankTest extends TestJPF {
+      [2 insn w/o sources]
+  edu/pitt/cs/BankTest.java:18   : public class BankTest extends TestJPF {
+  edu/pitt/cs/BankTest.java:3    : import org.junit.Test;
+      [18 insn w/o sources]
+  edu/pitt/cs/BankTest.java:37   : if (verifyNoPropertyViolation() == false) {
 
 ...
 
@@ -178,7 +188,29 @@ gov.nasa.jpf.vm.choice.ThreadChoiceFromSet {id:"SHARED_CLASS" ,1/3,isCascaded:fa
 ====================================================== results
 error #1: gov.nasa.jpf.listener.PreciseRaceDetector "race for field edu.pitt.cs.Transaction.transaction..."
 
-...
+====================================================== search finished: 3/28/24, 7:54 AM
+java.lang.AssertionError: JPF found unexpected errors: gov.nasa.jpf.listener.PreciseRaceDetector
+        at gov.nasa.jpf.util.test.TestJPF.fail(TestJPF.java:164)
+        at gov.nasa.jpf.util.test.TestJPF.noPropertyViolation(TestJPF.java:816)
+        at gov.nasa.jpf.util.test.TestJPF.verifyNoPropertyViolation(TestJPF.java:830)
+        at edu.pitt.cs.BankTest.testTransfer(BankTest.java:37)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+        at gov.nasa.jpf.util.test.TestJPF.invoke(TestJPF.java:499)
+        at gov.nasa.jpf.util.test.TestJPF.runTests(TestJPF.java:558)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+        at gov.nasa.jpf.tool.RunTest.main(RunTest.java:185)
+......................................... test method failed with: JPF found unexpected errors: gov.nasa.jpf.listener.PreciseRaceDetector
+......................................... testTransfer: Failed
+
+......................................... execution of testsuite: edu.pitt.cs.BankTest FAILED
+.... [1] testTransfer: Failed
+......................................... tests: 1, failures: 1, errors: 0
 
 ```
 
@@ -227,27 +259,27 @@ going to become important in other data races you have to debug.
 After inserting the synchronization using "countLock", you will see the data race on "transactionCount" go away.  But you will see a new data race getting detected:
 
 ```
-$ bash runJPF.sh JUnit.macos.jpf 
-JavaPathfinder core system v8.0 (rev 2f8f3c4dc847b8945fc13d2cb60896fc9c34265b) - (C) 2005-2014 United States Government. All rights reserved.
+......................................... testing testTransfer()
+  running jpf with args:
+JavaPathfinder core system v8.0 (rev 1a704e1d6c3d92178504f8cdfe57b068b4e22d9c) - (C) 2005-2014 United States Government. All rights reserved.
 
 
 ====================================================== system under test
-edu.pitt.cs.TestRunner.main("trace")
+edu.pitt.cs.BankTest.runTestMethod()
 
-====================================================== search started: 11/7/23 2:56 PM
-TRACE GENERATION FOR FIRST FAILURE
-
+====================================================== search started: 3/28/24, 7:57 AM
+[WARNING] orphan NativePeer method: jdk.internal.misc.Unsafe.getUnsafe()Lsun/misc/Unsafe;
+[WARNING] orphan NativePeer method: jdk.internal.reflect.Reflection.getCallerClass(I)Ljava/lang/Class;
 
 ====================================================== error 1
 gov.nasa.jpf.listener.PreciseRaceDetector
-race for field edu.pitt.cs.Account@221.balance
+race for field edu.pitt.cs.Account@237.balance
   main at edu.pitt.cs.Account.getBalance(Account.java:36)
                 "return balance;"  READ:  getfield edu.pitt.cs.Account.balance
   Thread-1 at edu.pitt.cs.Account.withdraw(Account.java:28)
                 "balance -= amount;"  WRITE: putfield edu.pitt.cs.Account.balance
 ...
 ```
-
 Apparently, there is a data race on the "balance" variable.  I will leave it to
 you to read the trace, figure out the problem and debug this.  Repeat until JPF
 does not display any errors.
