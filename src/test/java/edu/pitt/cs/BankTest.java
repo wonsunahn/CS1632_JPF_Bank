@@ -2,6 +2,8 @@ package edu.pitt.cs;
 
 import org.junit.Test;
 
+import gov.nasa.jpf.util.test.TestJPF;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,7 +15,7 @@ import static org.junit.Assert.*;
  * of JPF. You may also encounter deadlocks in the debugging process.
  */
 
-public class BankTest {
+public class BankTest extends TestJPF {
 	/**
 	 * Test case for void transfer(int from, int to, int amount).
 	 * 
@@ -26,6 +28,18 @@ public class BankTest {
 	 */
 	@Test
 	public void testTransfer() {
+		/*
+		 * When host JVM encounters the verifyNoPropertyViolation(), it invokes the JPF
+		 * VM on this test method. So there are effectively two virtual machines
+		 * executing this method. The verifyNoPropertyViolation() method returns false
+		 * if the executing VM is the host JVM and returns true if it is the JPF VM.
+		 */
+		if (verifyNoPropertyViolation() == false) {
+			// This is the host JVM so return immediately.
+			return;
+		}
+		// This is the JPF VM, so the below code is run on top of the model checker.
+
 		// TODO: Implement
 	}
 }
