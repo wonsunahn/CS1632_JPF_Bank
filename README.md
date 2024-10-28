@@ -8,13 +8,12 @@
     + [Hints while Fixing](#hints-while-fixing)
   * [Submission](#submission)
   * [GradeScope Feedback](#gradescope-feedback)
-  * [Groupwork Plan](#groupwork-plan)
 
 # Exercise 5 - Static Analysis Extra Credit
 
 Summer Semester 2024 - Exercise 5
 
-* DUE: August 7 (Wednesday), 2024 8:30 AM
+* DUE: December 16 (Monday), 2024 11:59 PM
 
 For this extra credit, you will learn how to use the Java Path Finder to debug
 nondeterministic programs due to parallelism.  You will encounter problems such
@@ -344,9 +343,3 @@ If you implemented your BankTest properly, you should be able to easily
 reproduce GradeScope results on your own machine using your own BankTest class.
 If you are not able to reproduce it, something is wrong with your BankTest
 code.
-
-## Groupwork Plan
-
-You will work together on the same repository.  You only need a handful of
-source line changes to fix these bugs.  The hard part is thinking of the right
-way to do synchronization.
