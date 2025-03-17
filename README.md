@@ -11,9 +11,9 @@
 
 # Exercise 5 - Static Analysis Extra Credit
 
-Summer Semester 2024 - Exercise 5
+Spring Semester 2025 - Exercise 5
 
-* DUE: December 16 (Monday), 2024 11:59 PM
+* DUE: April 30 (Wednesday), 2025 11:59 PM
 
 For this extra credit, you will learn how to use the Java Path Finder to debug
 nondeterministic programs due to parallelism.  You will encounter problems such
