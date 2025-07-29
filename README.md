@@ -38,7 +38,7 @@ mvn compile
 Let's try manual testing the main method of the Bank class:
 
 ```
-java -cp target/classes edu.pitt.cs.Bank 4 100
+java -cp target/classes edu.pitt.cs.Bank
 ```
 
 ... and the system responds with:
